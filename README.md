@@ -49,3 +49,46 @@ answer:
 
 - 首頁：`/`
 - 練習：`/practice/trig-basic`
+
+## 部署到 GitHub Pages
+
+本專案已含 GitHub Actions（`.github/workflows/deploy-pages.yml`），推送後會自動建置並發布。
+
+### 第一次設定
+
+1. 在 GitHub 建立儲存庫，將本專案 push 上去（分支 `main` 或 `master` 皆可）。
+2. 儲存庫 **Settings → Pages**：
+   - **Build and deployment** → Source 選 **GitHub Actions**（不要選 Deploy from a branch）。
+3. 等 Actions 跑完（約 1～2 分鐘），Pages 會顯示網址。
+
+### 網址格式
+
+| 儲存庫類型 | 網址範例 |
+|------------|----------|
+| 一般專案站 | `https://<使用者>.github.io/<儲存庫名稱>/` |
+| 使用者首頁站（repo 名須為 `<使用者>.github.io`） | `https://<使用者>.github.io/` |
+
+練習直連範例（假設 repo 名為 `math-practice`）：
+
+`https://<使用者>.github.io/math-practice/practice/trig-basic`
+
+### 本機模擬 GitHub Pages 建置
+
+將 `你的-repo名` 換成 GitHub 上的儲存庫名稱：
+
+```bash
+VITE_BASE_PATH=/你的-repo名/ npm run build
+npm run preview
+```
+
+預覽時請開 `http://localhost:4173/你的-repo名/`（路徑需含 base）。
+
+### 若使用 `<使用者>.github.io` 根網域站
+
+該儲存庫的 Pages 在網域根目錄，請改 workflow 的建置環境變數為：
+
+```yaml
+VITE_BASE_PATH: /
+```
+
+並將 `vite.config.ts` 預設 base 維持 `/` 即可。
