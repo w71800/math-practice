@@ -108,7 +108,12 @@ answer:
 - [ ] npm run dev 開啟 /practice/{slug} 目視確認
 ```
 
+## 圖形
+
+題目附圖用 `:::figure`（`source=file` 或 `source=svg`）。三角形可用產圖腳本；規範見 [student-practice-figures](../student-practice-figures/SKILL.md)。
+
 ## 參考
 
 - 完整範例：`practices/三角函數基本練習.md`（`slug: trig-basic`）
+- 含圖範例：`practices/正弦餘弦定理基本練習.md`（`slug: sine-cosine-law`）
 - 更多片段： [examples.md](examples.md)
