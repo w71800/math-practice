@@ -1,4 +1,5 @@
 import MarkdownIt from 'markdown-it'
+import { parseFigureContent, type PracticeFigure } from './parseFigure'
 import { parseFrontMatter } from './frontMatter'
 import { renderMathInMarkdown } from './renderMath'
 
@@ -18,12 +19,13 @@ export interface PracticeQuestion {
 export type PracticeBlock =
   | { type: 'markdown'; content: string }
   | { type: 'question'; question: PracticeQuestion }
+  | { type: 'figure'; figure: PracticeFigure }
 
 export interface ParsedPractice extends PracticeMeta {
   blocks: PracticeBlock[]
 }
 
-const QUESTION_RE = /:::question\s*\n([\s\S]*?)\n:::/g
+const BLOCK_RE = /:::(question|figure)([^\n]*)\n([\s\S]*?)\n:::/g
 const ANSWER_SPLIT_RE = /\nanswer:\s*\n/i
 
 const BLANK_HTML =
@@ -51,32 +53,45 @@ export function parsePracticeRaw(raw: string, sourceSlug?: string): ParsedPracti
   const blocks: PracticeBlock[] = []
   let lastIndex = 0
   let questionIndex = 0
+  let figureIndex = 0
 
   const contentNormalized = content.replace(/\r\n/g, '\n')
-  QUESTION_RE.lastIndex = 0
+  BLOCK_RE.lastIndex = 0
 
   let match: RegExpExecArray | null
-  while ((match = QUESTION_RE.exec(contentNormalized)) !== null) {
+  while ((match = BLOCK_RE.exec(contentNormalized)) !== null) {
     const before = contentNormalized.slice(lastIndex, match.index).trim()
     if (before) {
       blocks.push({ type: 'markdown', content: before })
     }
 
-    const inner = match[1]
-    const parts = inner.split(ANSWER_SPLIT_RE)
-    const bodyMarkdown = (parts[0] ?? '').trim()
-    const answerLatex = (parts[1] ?? '').trim()
+    const blockType = match[1]
+    const attrString = match[2]
+    const inner = match[3]
 
-    questionIndex += 1
-    blocks.push({
-      type: 'question',
-      question: {
-        id: `q${questionIndex}`,
-        bodyMarkdown,
-        answerLatex,
-        isAnswerPending: isPendingAnswer(answerLatex),
-      },
-    })
+    if (blockType === 'question') {
+      const parts = inner.split(ANSWER_SPLIT_RE)
+      const bodyMarkdown = (parts[0] ?? '').trim()
+      const answerLatex = (parts[1] ?? '').trim()
+
+      questionIndex += 1
+      blocks.push({
+        type: 'question',
+        question: {
+          id: `q${questionIndex}`,
+          bodyMarkdown,
+          answerLatex,
+          isAnswerPending: isPendingAnswer(answerLatex),
+        },
+      })
+    } else {
+      figureIndex += 1
+      const parsed = parseFigureContent(attrString, inner)
+      blocks.push({
+        type: 'figure',
+        figure: { id: `fig${figureIndex}`, ...parsed },
+      })
+    }
 
     lastIndex = match.index + match[0].length
   }

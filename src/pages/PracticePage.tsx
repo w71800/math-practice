@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { FigureBlock } from '../components/FigureBlock'
 import { MarkdownContent } from '../components/MarkdownContent'
 import { QuestionBlock } from '../components/QuestionBlock'
 import { getPracticeBySlug } from '../lib/practices'
@@ -80,6 +81,10 @@ export function PracticePage() {
                 <MarkdownContent markdown={block.content} />
               </section>
             )
+          }
+
+          if (block.type === 'figure') {
+            return <FigureBlock key={block.figure.id} figure={block.figure} />
           }
 
           const { question } = block

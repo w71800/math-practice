@@ -239,6 +239,31 @@ a:hover {
   overflow-x: auto;
 }
 
+.practice-figure {
+  margin: 1rem auto;
+  max-width: 22rem;
+  text-align: center;
+}
+
+.figure-img,
+.figure-svg :is(svg) {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.figure-svg {
+  line-height: 0;
+}
+
+.practice-figure--error .figure-error {
+  margin: 0;
+  color: var(--muted);
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
 .markdown-body ul,
 .markdown-body ol {
   padding-left: 1.5rem;

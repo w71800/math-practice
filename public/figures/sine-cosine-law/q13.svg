@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 220" role="img">
+<style>
+.tri{fill:none;stroke:#1a1a1a;stroke-width:2;stroke-linejoin:round}
+.arc{fill:none;stroke:#666;stroke-width:1.2}
+.label{font:13px system-ui,sans-serif;fill:#1a1a1a}
+.vertex{font:14px system-ui,sans-serif;font-weight:600;fill:#1a1a1a}
+.figure-highlight{font-weight:700;fill:#b45309}
+</style>
+<polygon class="tri" points="45.3,28.0 234.7,28.0 140.0,192.0"/>
+<path class="arc" d="M 61.3 28.0 A 16 16 0 0 1 53.3 41.9"/>
+<text x="71.3" y="43.0" text-anchor="middle" dominant-baseline="middle" class="label">60°</text>
+<text x="29.7" y="19.0" text-anchor="middle" dominant-baseline="middle" class="label vertex">A</text>
+<text x="250.3" y="19.0" text-anchor="middle" dominant-baseline="middle" class="label vertex">B</text>
+<text x="140.0" y="210.0" text-anchor="middle" dominant-baseline="middle" class="label vertex">C</text>
+<text x="171.8" y="101.0" text-anchor="middle" dominant-baseline="middle" class="label">8</text>
+<text x="108.2" y="101.0" text-anchor="middle" dominant-baseline="middle" class="label">4√3</text>
+</svg>
