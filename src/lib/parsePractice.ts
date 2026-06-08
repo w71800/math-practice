@@ -1,5 +1,6 @@
 import MarkdownIt from 'markdown-it'
 import { parseFrontMatter } from './frontMatter'
+import { renderMathInMarkdown } from './renderMath'
 
 export interface PracticeMeta {
   title: string
@@ -88,8 +89,9 @@ export function parsePracticeRaw(raw: string, sourceSlug?: string): ParsedPracti
   return { title, slug, description, blocks }
 }
 
-/** 將 {{blank}} 轉為內嵌 HTML 後一次渲染，避免拆碎 table 結構 */
+/** 將 {{blank}}、LaTeX 轉為 HTML 後一次渲染，避免拆碎 table 結構 */
 export function renderMarkdownToHtml(markdown: string): string {
   const withBlanks = markdown.replace(/\{\{blank\}\}/g, BLANK_HTML)
-  return md.render(withBlanks)
+  const withMath = renderMathInMarkdown(withBlanks)
+  return md.render(withMath)
 }
